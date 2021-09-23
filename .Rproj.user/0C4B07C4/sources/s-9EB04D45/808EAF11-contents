@@ -1,0 +1,20 @@
+# Week 1 {-}
+
+#### 解決無法顯示中文的問題 {-}
+##### 方法1：指定字型 {-}
+```{r eval=FALSE}
+# ggplot
++ theme(text = element_text(family = "family-name"))
+```
+
+```{r eval=FALSE}
+# lessR
+par(family = "family-name") # 每次繪圖前設置
+```
+
+##### 方法2：使用套件 {-}
+```{r eval=FALSE}
+library(showtext)
+showtext.auto()
+```
+

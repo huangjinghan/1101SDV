@@ -1,0 +1,21 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: "section"
+  highlight: pygments
+  config:
+    toc:
+      collapse: section
+      before: |
+        <li><a href="./">時空資料視覺化</a></li>
+    info: false
+    sharing:
+      facebook: false
+      twitter: false
+      all: false
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+bookdown::epub_book: default

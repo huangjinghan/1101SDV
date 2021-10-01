@@ -1,20 +1,82 @@
 # Week 1 {-}
 
-#### 解決無法顯示中文的問題 {-}
-##### 方法1：指定字型 {-}
-```{r eval=FALSE}
-# ggplot
-+ theme(text = element_text(family = "family-name"))
+## 練習1 {-}
+
+```{r message=FALSE}
+library(dplyr);library(readxl);library(ggplot2)
+setwd("~/Documents/110-1/Spatiotemporal/Data")
+employee = read_excel("employee.xlsx")
 ```
 
-```{r eval=FALSE}
-# lessR
-par(family = "family-name") # 每次繪圖前設置
+> 1. Salary differences in gender(F/M) among departments
+
+```{r message=FALSE}
+Q1 = employee %>%
+  group_by(Dept, Gender) %>%
+  summarise(Salary = mean(Salary)) %>%
+  na.omit()
+ggplot(Q1, aes(x = Dept, y = Salary, fill = Gender)) + 
+  geom_bar(stat="identity", position = "dodge") +
+  theme_minimal()
 ```
 
-##### 方法2：使用套件 {-}
-```{r eval=FALSE}
-library(showtext)
-showtext.auto()
+> 2. Which department provides a better career path?
+
+```{r warning=FALSE}
+Q2 = employee %>%
+  filter(!is.na(Years) & !is.na(Salary) & !is.na(Dept))
+ggplot(Q2, aes(x = Years, y = Salary, col = Dept)) + 
+  geom_line() +
+  theme_minimal()
 ```
 
+```{r include=FALSE}
+rm(list=ls())
+```
+
+
+## 作業1 {-}
+
+> Do the residential buildings with more rooms have higher prices (stratified by building states) among the regions of Taipei City?
+
+```{r message=FALSE}
+library(dplyr);library(ggplot2)
+setwd("~/Documents/110-1/Spatiotemporal/Data")
+land = read.csv("a_lvr_land_a.csv") %>% 
+  slice(-1L) %>%
+  filter(主要用途 == "住家用") %>%
+  filter(建物型態 == "公寓(5樓含以下無電梯)" | 建物型態 == "住宅大樓(11層含以上有電梯)" |
+         建物型態 == "透天厝" | 建物型態 == "華廈(10層含以下有電梯)") %>%
+  mutate(建物型態 = replace(建物型態, 建物型態 == "公寓(5樓含以下無電梯)", "公寓"),
+         建物型態 = replace(建物型態, 建物型態 == "住宅大樓(11層含以上有電梯)", "住宅大樓"),
+         建物型態 = replace(建物型態, 建物型態 == "華廈(10層含以下有電梯)", "華廈")) %>%
+  mutate(建物現況格局.房 = as.numeric(建物現況格局.房)) %>%
+  filter(建物現況格局.房 != 0) %>%
+  mutate(單價元平方公尺 = as.numeric(單價元平方公尺),
+         台北市 = case_when(鄉鎮市區 == "士林區" | 鄉鎮市區 == "北投區" ~ "北區",
+                           鄉鎮市區 == "文山區" ~ "南區",
+                           鄉鎮市區 == "大同區" | 鄉鎮市區 == "中正區" | 
+                           鄉鎮市區 == "中山區" | 鄉鎮市區 == "萬華區" ~ "西區",
+                           鄉鎮市區 == "內湖區" | 鄉鎮市區 == "南港區" ~ "東區",
+                           鄉鎮市區 == "大安區" | 鄉鎮市區 == "信義區" | 鄉鎮市區 == "松山區" ~ "中區")) %>%
+  group_by(建物型態, 台北市, 建物現況格局.房) %>%
+  summarise(平均單價 = mean(單價元平方公尺))
+```
+
+```{r}
+ggplot(land, aes(x = 建物現況格局.房, y = 平均單價, color = 台北市)) +
+  geom_line() +
+  theme_minimal() +
+  facet_wrap(~ 建物型態) +
+  scale_x_continuous(name = "建物現況格局(房)", breaks = 1:7) +
+  scale_y_continuous(name = "平均單價", labels = scales::comma) +
+  theme(text=element_text(family="GenYoGothicTW-N"))
+```
+
+```{r message=FALSE}
+library(lessR);library(showtext)
+showtext_auto()
+Plot(data = land, x = 建物現況格局.房, y = 平均單價,
+     xlab = "建物現況格局(房)", ylab = "平均單價",
+     by = 台北市, by1 = 建物型態, run = TRUE, n_row = 2)
+```

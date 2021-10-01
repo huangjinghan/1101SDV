@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Week 1 | 時空資料視覺化</title>
-  <meta name="description" content="Week 1 | 時空資料視覺化" />
+  <title>練習1 | 時空資料視覺化</title>
+  <meta name="description" content="練習1 | 時空資料視覺化" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Week 1 | 時空資料視覺化" />
+  <meta property="og:title" content="練習1 | 時空資料視覺化" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Week 1 | 時空資料視覺化" />
+  <meta name="twitter:title" content="練習1 | 時空資料視覺化" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="練習1.html"/>
+<link rel="prev" href="week-1.html"/>
+<link rel="next" href="作業1.html"/>
 <script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -158,16 +158,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="week-1" class="section level1 unnumbered">
-<h1>Week 1</h1>
+<div id="練習1" class="section level2 unnumbered">
+<h2>練習1</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="練習1.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr);<span class="fu">library</span>(readxl);<span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="練習1.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/Documents/110-1/Spatiotemporal/Data&quot;</span>)</span>
+<span id="cb1-3"><a href="練習1.html#cb1-3" aria-hidden="true" tabindex="-1"></a>employee <span class="ot">=</span> <span class="fu">read_excel</span>(<span class="st">&quot;employee.xlsx&quot;</span>)</span></code></pre></div>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>Salary differences in gender(F/M) among departments</li>
+</ol>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="練習1.html#cb2-1" aria-hidden="true" tabindex="-1"></a>Q1 <span class="ot">=</span> employee <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="練習1.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Dept, Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="練習1.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Salary =</span> <span class="fu">mean</span>(Salary)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="練習1.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb2-5"><a href="練習1.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Q1, <span class="fu">aes</span>(<span class="at">x =</span> Dept, <span class="at">y =</span> Salary, <span class="at">fill =</span> Gender)) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="練習1.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="練習1.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li>Which department provides a better career path?</li>
+</ol>
+</blockquote>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="練習1.html#cb3-1" aria-hidden="true" tabindex="-1"></a>Q2 <span class="ot">=</span> employee <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="練習1.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Years) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Salary) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Dept))</span>
+<span id="cb3-3"><a href="練習1.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Q2, <span class="fu">aes</span>(<span class="at">x =</span> Years, <span class="at">y =</span> Salary, <span class="at">col =</span> Dept)) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="練習1.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-5"><a href="練習1.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="練習1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="week-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="作業1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

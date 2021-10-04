@@ -1,7 +1,7 @@
 # Week 1 {-}
 
 ## Week1 Solution {-}
-### 練習1 {-}
+### 練習 {-}
 
 ```{r message=FALSE}
 library(dplyr);library(readxl);library(ggplot2)
@@ -36,7 +36,7 @@ rm(list=ls())
 ```
 
 
-### 作業1 {-}
+### 作業 {-}
 
 > Do the residential buildings with more rooms have higher prices (stratified by building states) among the regions of Taipei City?
 

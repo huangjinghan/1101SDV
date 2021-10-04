@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="week1-solution.html"/>
+
 <script src="libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -138,15 +138,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Index</a></li>
 <li class="chapter" data-level="" data-path="week-1.html"><a href="week-1.html"><i class="fa fa-check"></i>Week 1</a>
 <ul>
-<li class="chapter" data-level="" data-path="week1-solution.html"><a href="week1-solution.html"><i class="fa fa-check"></i>Week1 Solution</a>
+<li class="chapter" data-level="" data-path="week-1.html"><a href="week-1.html#solution"><i class="fa fa-check"></i>Solution</a>
 <ul>
-<li class="chapter" data-level="" data-path="week1-solution.html"><a href="week1-solution.html#練習"><i class="fa fa-check"></i>練習</a></li>
-<li class="chapter" data-level="" data-path="week1-solution.html"><a href="week1-solution.html#作業"><i class="fa fa-check"></i>作業</a></li>
+<li class="chapter" data-level="" data-path="week-1.html"><a href="week-1.html#練習"><i class="fa fa-check"></i>練習</a></li>
+<li class="chapter" data-level="" data-path="week-1.html"><a href="week-1.html#作業"><i class="fa fa-check"></i>作業</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="week-2.html"><a href="week-2.html"><i class="fa fa-check"></i>Week 2</a>
-<ul>
-<li class="chapter" data-level="" data-path="week2-solution.html"><a href="week2-solution.html"><i class="fa fa-check"></i>Week2 Solution</a></li>
 </ul></li>
 </ul>
 
@@ -167,14 +163,90 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="week-1" class="section level1 unnumbered">
 <h1>Week 1</h1>
+<div id="solution" class="section level2 unnumbered">
+<h2>Solution</h2>
+<div id="練習" class="section level3 unnumbered">
+<h3>練習</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="week-1.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr);<span class="fu">library</span>(readxl);<span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="week-1.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/Documents/110-1/Spatiotemporal/Data&quot;</span>)</span>
+<span id="cb1-3"><a href="week-1.html#cb1-3" aria-hidden="true" tabindex="-1"></a>employee <span class="ot">=</span> <span class="fu">read_excel</span>(<span class="st">&quot;employee.xlsx&quot;</span>)</span></code></pre></div>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>Salary differences in gender(F/M) among departments</li>
+</ol>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="week-1.html#cb2-1" aria-hidden="true" tabindex="-1"></a>Q1 <span class="ot">=</span> employee <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="week-1.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Dept, Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="week-1.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Salary =</span> <span class="fu">mean</span>(Salary)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="week-1.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb2-5"><a href="week-1.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Q1, <span class="fu">aes</span>(<span class="at">x =</span> Dept, <span class="at">y =</span> Salary, <span class="at">fill =</span> Gender)) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="week-1.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="week-1.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li>Which department provides a better career path?</li>
+</ol>
+</blockquote>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="week-1.html#cb3-1" aria-hidden="true" tabindex="-1"></a>Q2 <span class="ot">=</span> employee <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="week-1.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Years) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Salary) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Dept))</span>
+<span id="cb3-3"><a href="week-1.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Q2, <span class="fu">aes</span>(<span class="at">x =</span> Years, <span class="at">y =</span> Salary, <span class="at">col =</span> Dept)) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="week-1.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-5"><a href="week-1.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="作業" class="section level3 unnumbered">
+<h3>作業</h3>
+<blockquote>
+<p>Do the residential buildings with more rooms have higher prices (stratified by building states) among the regions of Taipei City?</p>
+</blockquote>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="week-1.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr);<span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-2"><a href="week-1.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/Documents/110-1/Spatiotemporal/Data&quot;</span>)</span>
+<span id="cb4-3"><a href="week-1.html#cb4-3" aria-hidden="true" tabindex="-1"></a>land <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;a_lvr_land_a.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="week-1.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span>1L) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="week-1.html#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(主要用途 <span class="sc">==</span> <span class="st">&quot;住家用&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="week-1.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(建物型態 <span class="sc">==</span> <span class="st">&quot;公寓(5樓含以下無電梯)&quot;</span> <span class="sc">|</span> 建物型態 <span class="sc">==</span> <span class="st">&quot;住宅大樓(11層含以上有電梯)&quot;</span> <span class="sc">|</span></span>
+<span id="cb4-7"><a href="week-1.html#cb4-7" aria-hidden="true" tabindex="-1"></a>         建物型態 <span class="sc">==</span> <span class="st">&quot;透天厝&quot;</span> <span class="sc">|</span> 建物型態 <span class="sc">==</span> <span class="st">&quot;華廈(10層含以下有電梯)&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="week-1.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(建物型態 <span class="ot">=</span> <span class="fu">replace</span>(建物型態, 建物型態 <span class="sc">==</span> <span class="st">&quot;公寓(5樓含以下無電梯)&quot;</span>, <span class="st">&quot;公寓&quot;</span>),</span>
+<span id="cb4-9"><a href="week-1.html#cb4-9" aria-hidden="true" tabindex="-1"></a>         建物型態 <span class="ot">=</span> <span class="fu">replace</span>(建物型態, 建物型態 <span class="sc">==</span> <span class="st">&quot;住宅大樓(11層含以上有電梯)&quot;</span>, <span class="st">&quot;住宅大樓&quot;</span>),</span>
+<span id="cb4-10"><a href="week-1.html#cb4-10" aria-hidden="true" tabindex="-1"></a>         建物型態 <span class="ot">=</span> <span class="fu">replace</span>(建物型態, 建物型態 <span class="sc">==</span> <span class="st">&quot;華廈(10層含以下有電梯)&quot;</span>, <span class="st">&quot;華廈&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="week-1.html#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(建物現況格局.房 <span class="ot">=</span> <span class="fu">as.numeric</span>(建物現況格局.房)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="week-1.html#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(建物現況格局.房 <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="week-1.html#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(單價元平方公尺 <span class="ot">=</span> <span class="fu">as.numeric</span>(單價元平方公尺),</span>
+<span id="cb4-14"><a href="week-1.html#cb4-14" aria-hidden="true" tabindex="-1"></a>         台北市 <span class="ot">=</span> <span class="fu">case_when</span>(鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;士林區&quot;</span> <span class="sc">|</span> 鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;北投區&quot;</span> <span class="sc">~</span> <span class="st">&quot;北區&quot;</span>,</span>
+<span id="cb4-15"><a href="week-1.html#cb4-15" aria-hidden="true" tabindex="-1"></a>                           鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;文山區&quot;</span> <span class="sc">~</span> <span class="st">&quot;南區&quot;</span>,</span>
+<span id="cb4-16"><a href="week-1.html#cb4-16" aria-hidden="true" tabindex="-1"></a>                           鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;大同區&quot;</span> <span class="sc">|</span> 鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;中正區&quot;</span> <span class="sc">|</span> </span>
+<span id="cb4-17"><a href="week-1.html#cb4-17" aria-hidden="true" tabindex="-1"></a>                           鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;中山區&quot;</span> <span class="sc">|</span> 鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;萬華區&quot;</span> <span class="sc">~</span> <span class="st">&quot;西區&quot;</span>,</span>
+<span id="cb4-18"><a href="week-1.html#cb4-18" aria-hidden="true" tabindex="-1"></a>                           鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;內湖區&quot;</span> <span class="sc">|</span> 鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;南港區&quot;</span> <span class="sc">~</span> <span class="st">&quot;東區&quot;</span>,</span>
+<span id="cb4-19"><a href="week-1.html#cb4-19" aria-hidden="true" tabindex="-1"></a>                           鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;大安區&quot;</span> <span class="sc">|</span> 鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;信義區&quot;</span> <span class="sc">|</span> 鄉鎮市區 <span class="sc">==</span> <span class="st">&quot;松山區&quot;</span> <span class="sc">~</span> <span class="st">&quot;中區&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-20"><a href="week-1.html#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(建物型態, 台北市, 建物現況格局.房) <span class="sc">%&gt;%</span></span>
+<span id="cb4-21"><a href="week-1.html#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(平均單價 <span class="ot">=</span> <span class="fu">mean</span>(單價元平方公尺))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="week-1.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(land, <span class="fu">aes</span>(<span class="at">x =</span> 建物現況格局.房, <span class="at">y =</span> 平均單價, <span class="at">color =</span> 台北市)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="week-1.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="week-1.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-4"><a href="week-1.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> 建物型態) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="week-1.html#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">name =</span> <span class="st">&quot;建物現況格局(房)&quot;</span>, <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="week-1.html#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">&quot;平均單價&quot;</span>, <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="week-1.html#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text=</span><span class="fu">element_text</span>(<span class="at">family=</span><span class="st">&quot;GenYoGothicTW-N&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="week-1.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lessR);<span class="fu">library</span>(showtext)</span>
+<span id="cb6-2"><a href="week-1.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()</span>
+<span id="cb6-3"><a href="week-1.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Plot</span>(<span class="at">data =</span> land, <span class="at">x =</span> 建物現況格局.房, <span class="at">y =</span> 平均單價,</span>
+<span id="cb6-4"><a href="week-1.html#cb6-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;建物現況格局(房)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;平均單價&quot;</span>,</span>
+<span id="cb6-5"><a href="week-1.html#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">by =</span> 台北市, <span class="at">by1 =</span> 建物型態, <span class="at">run =</span> <span class="cn">TRUE</span>, <span class="at">n_row =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [Trellis graphics from Deepayan Sarkar&#39;s lattice package]</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="week1-solution.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -1,6 +1,5 @@
 bookdown::gitbook:
   css: style.css
-  split_by: "section"
   highlight: pygments
   config:
     toc:
@@ -19,3 +18,5 @@ bookdown::pdf_book:
   citation_package: natbib
   keep_tex: yes
 bookdown::epub_book: default
+
+#  split_by: "section"
